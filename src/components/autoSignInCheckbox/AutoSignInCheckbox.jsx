@@ -21,7 +21,9 @@ const AutoSignInCheckbox = ({
         onChange={onChange}
         {...restProps}
       />
-      {checked && <Tooltip />}
+      {checked && (
+        <Tooltip top={24} left={-5} orientation="top" message={message} />
+      )}
     </div>
   );
 };

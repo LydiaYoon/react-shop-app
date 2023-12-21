@@ -9,10 +9,14 @@ import { toast } from 'react-toastify';
 
 import styles from './Header.module.scss';
 import InnerHeader from '../innerHeader/InnerHeader';
+import { useDispatch } from 'react-redux';
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER } from '@/redux/slice/authSlice';
 
 const Header = () => {
   const router = useRouter();
   const pathName = usePathname();
+
+  const dispatch = useDispatch();
 
   const [displayName, setDisplayName] = useState('');
 
@@ -28,10 +32,17 @@ const Header = () => {
           setDisplayName(user.displayName);
         }
 
-        // TODO: 유저 정보를 redux store에 저장하기
+        dispatch(
+          SET_ACTIVE_USER({
+            email: user.email,
+            userName: user.displayName ? user.displayName : displayName,
+            userID: user.uid,
+          }),
+        );
       } else {
         setDisplayName('');
-        // TODO: 유저 정보를 redux store에서 지우기
+
+        dispatch(REMOVE_ACTIVE_USER());
       }
     });
   }, []);
